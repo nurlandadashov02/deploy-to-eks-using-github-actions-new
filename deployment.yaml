@@ -19,4 +19,4 @@ spec:
           image: 451402984154.dkr.ecr.us-east-1.amazonaws.com/primuslearning:1.1
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 4040

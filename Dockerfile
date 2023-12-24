@@ -1,12 +1,24 @@
-FROM node:14-alpine
+# Use latest node version 8.x
+FROM node:alpine
 
-# Create app directory
-WORKDIR /usr/src/app
+# create app directory in container
+RUN mkdir -p /app
 
-COPY . .
+# set /app directory as default working directory
+WORKDIR /app
 
-RUN npm install
+# only copy package.json initially so that `RUN yarn` layer is recreated only
+# if there are changes in package.json
+ADD package.json /app/
 
-EXPOSE 8080
+# --pure-lockfile: Don’t generate a yarn.lock lockfile
+RUN npm install -f
 
-CMD [ "node", "server.js" ]
+# copy all file from current dir to /app in container
+COPY . /app/
+
+# expose port 4040
+EXPOSE 4040
+
+# cmd to start service
+CMD [ "npm", "start" ]
